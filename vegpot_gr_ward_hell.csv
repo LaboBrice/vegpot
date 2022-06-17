@@ -1,0 +1,26 @@
+,Description,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+FC1,Chênaie rouge,5,12,95,0,0,0,1,0,0,0,0,3,10,0,0,0
+FE1,Érablière à caryer cordiforme,20,15,8,3,0,0,1,0,0,0,2,4,4,0,4,0
+FE2,Érablière à tilleul,725,124,85,168,10,0,27,0,0,6,13,75,24,1,28,0
+FE3,Érablière à bouleau jaune,2386,261,227,937,163,0,18,5,2,19,23,262,45,2,71,0
+FE4,Érablière à bouleau jaune et hêtre,53,17,0,81,4,0,0,0,0,0,0,2,0,0,0,0
+FE5,Érablière à ostryer,249,34,65,40,0,0,5,0,0,0,0,10,16,0,0,0
+FE6,Érablière à chêne rouge,94,74,447,41,0,0,1,0,0,0,1,18,66,0,0,0
+FO1,Ormaie à frène noir,0,17,0,0,0,0,53,0,0,0,16,3,0,0,6,0
+MF1,Frênaie noire à sapin,8,29,0,0,9,0,6,8,6,8,157,33,8,0,88,0
+MJ1,Bétulaie jaune à sapin et érable à sucre,377,294,66,33,455,0,27,9,12,69,110,182,65,0,139,1
+MJ2,Bétulaie jaune à sapin,59,1038,71,0,1158,15,114,125,199,670,359,826,235,2,467,16
+MS1,Sapinière à bouleau jaune,59,155,4,2,550,16,63,49,233,279,124,258,14,10,99,3
+MS2,Sapinière à bouleau blanc,3,48,0,1,17,441,323,333,2046,1677,291,1227,100,33,62,45
+MS6,Sapinière à érable rouge,0,118,0,0,0,22,28,51,104,151,46,292,7,6,22,4
+RB1,Pessière blanche ou cèdrière issue d'agriculture,0,0,0,0,2,0,13,0,10,7,92,13,7,0,17,2
+RC3,Cèdrière tourbeuse à sapin,0,7,0,0,8,2,4,24,1,4,10,7,0,0,285,0
+RE1,Pessière noire à lichens,0,0,0,0,0,5,182,16,0,0,4,0,0,587,0,178
+RE2,Pessière noire à mousses ou à éricacées,0,14,0,0,0,78,815,612,25,66,38,163,25,3293,0,1313
+RE3,Pessière noire à sphaignes,0,7,0,4,2,30,182,224,10,16,74,10,0,1617,0,34
+RP1,Pinède blanche ou pinède rouge,0,18,34,0,1,0,2,12,1,24,4,14,525,6,48,14
+RS1,Sapinière à thuya,4,79,4,0,4,3,8,54,6,17,58,139,24,4,862,0
+RS2,Sapinière à épinette noire,3,43,0,0,11,1413,319,2347,281,508,117,420,118,731,28,189
+RS3,Sapinière à épinette noire et sphaignes,0,28,0,0,4,135,75,334,95,99,86,26,5,158,29,0
+RS5,Sapinière à épinette rouge,0,27,0,0,7,4,11,14,14,16,171,11,10,0,5,7
+RT1,Prucheraie,16,98,208,1,2,0,1,0,0,0,4,5,5,0,28,0
