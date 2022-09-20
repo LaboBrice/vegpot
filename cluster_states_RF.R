@@ -26,7 +26,7 @@ MaxClus <- 21
 # Donnees
 
 vegpot <- read.csv("data/0_Vegpot.csv")
-
+spp17 <- read.csv("data/QC_RIA_SppList17.csv")$mycode
 sp_ba <- readRDS("data/sp_mat_ba_oct2020.RDS")
 
 # pep_pe <- st_read("data/PEP_GDB/PEP.gdb", layer = "STATION_PE")
@@ -56,25 +56,21 @@ pep_vegpot <- pep_pe %>%
 
 
 # garder seulement les PEP qui sont dans pep_pe
-MySpecies <- colnames(sp_ba[,-c(1:3,59)])
-
 sp_ba <- sp_ba %>%
   filter(ID_PE %in% pep_pe$ID_PE) %>%
-  left_join(pep_vegpot, by = c("ID_PE", "ID_PE_MES"))
-
-
-sort(colSums(sp_ba[,MySpecies]))
+  left_join(pep_vegpot, by = c("ID_PE", "ID_PE_MES")) %>%
+  select(ID_PE:year_measured,VEG_POT, all_of(spp17))
 
 
 
 # Distance ####
 
 # Hellinger distance matrice
-dist_hell <- dist(decostand(sp_ba[,MySpecies], "hel"))
+dist_hell <- dist(decostand(sp_ba[,spp17], "hel"))
 
 # log-chord distances
 
-dist_chord <- (decostand(log1p(sp_ba[,MySpecies]), "normalize"))
+dist_chord <- (decostand(log1p(sp_ba[,spp17]), "normalize"))
 dist_chord <- dist(dist_chord)
 
 
@@ -87,8 +83,7 @@ dist_chord <- dist(dist_chord)
 grWard_chord <- hclust(dist_chord, method = "ward.D2")
 
 
-ss <- names(which(colSums(sp_ba[,MySpecies]) > 2000))
-seqy = seq(0, 1, len = length(ss))
+seqy = seq(0, 1, len = length(spp17))
 
 
 
@@ -114,15 +109,15 @@ main1 <- paste0("resLoop/Ward clustering on log-Chord distance - ", i," groups")
 png(name1, width = 10, height = 6, units = "in", res = 300)
 layout(matrix(1:2), heights = c(.6,.4))
 par(mar = c(0,3,1,1))
-plot(xgr, hang = -1,xaxs = "i", labels = FALSE, main = main1, 
+plot(xgr, hang = -1, xaxs = "i", labels = FALSE, main = main1, 
      xlab="", ylab = "", sub="", cex.axis = .6,
      las = 1)
 rect.hclust(xgr, k = i, border = 2:20) 
 
 par(mar = c(1,3,0,1))
-image(as.matrix(sp_ba[gr_ord,rev(ss)]), axes = F, 
+image(as.matrix(sp_ba[gr_ord, rev(spp17)]), axes = F, 
       col = hcl.colors(12, "Viridis"))
-text(-.02, rev(seqy), ss, xpd = NA, 
+text(-.02, rev(seqy), spp17, xpd = NA, 
      cex = .5, adj = 1, font = 3)
 dev.off()
 
@@ -136,7 +131,7 @@ if(i==21){
 }
 
 for(j in 1:i){
-  boxplot(sp_ba[gr==j, ss], 
+  boxplot(sp_ba[gr==j, spp17], 
           horizontal = T, cex.axis = .65, las = 1, xaxt = "n", 
           outwex = 1, pch = 20, cex = .1, outcol = "grey", col = "red3") 
   axis(1, cex.axis = .5, tick = F, line = -1)
@@ -170,7 +165,7 @@ write.csv(gr_vegpot, name3)
 # rm(train)
 
 trainY <- as.factor(sp_ba_gr$gr)
-trainX <-  sp_ba_gr[, ss]
+trainX <-  sp_ba_gr[, spp17]
 
 
 
@@ -201,7 +196,7 @@ dfCat$Freq <- NULL
 dfCat$err <- NULL
 names(dfCat)[2] <- paste0("Freq_Err", i)
 
- sort(colSums(sp_ba[,MySpecies]))
+ sort(colSums(sp_ba[,spp17]))
 
 save(rfTestPar, file = name4)
 
@@ -259,8 +254,7 @@ rm(rfTestPar, xgr, grWard_chord, trainX, trainY, dist_chord)
 
 grWard_hell <- hclust(dist_hell, method = "ward.D2")
 
-ss <- names(which(colSums(sp_ba[,MySpecies])>2000))
-seqy = seq(0, 1, len = length(ss))
+seqy = seq(0, 1, len = length(spp17))
 
 
 
@@ -287,9 +281,9 @@ plot(xgr, hang = -1,xaxs = "i", labels = FALSE, main= main1,
 rect.hclust(xgr, k = i, border = 2:18) 
 
 par(mar = c(1,3,0,1))
-image(as.matrix(sp_ba[gr_ord,rev(ss)]), axes = F, 
+image(as.matrix(sp_ba[gr_ord,rev(spp17)]), axes = F, 
       col = hcl.colors(12, "Viridis"))
-text(-.02, rev(seqy), ss, xpd = NA, 
+text(-.02, rev(seqy), spp17, xpd = NA, 
      cex = .5, adj = 1, font = 3)
 dev.off()
 
@@ -303,7 +297,7 @@ if(i==21){
 }
 
 for(j in 1:i){
-  boxplot(sp_ba[gr== j, ss], 
+  boxplot(sp_ba[gr== j, spp17], 
           horizontal = T, cex.axis = .65, las = 1, xaxt = "n", 
           outwex = 1, pch = 20, cex = .1, outcol = "grey", col = "red3") 
   axis(1, cex.axis = .5, tick = F, line = -1)
@@ -333,7 +327,7 @@ arbres <- nrow(sp_ba_gr)
 # rm(train)
 
 trainY <- as.factor(sp_ba_gr$gr)
-trainX <-  sp_ba_gr[, ss]
+trainX <-  sp_ba_gr[, spp17]
 
 #RandomForests
 rfTestPar <- randomForest(trainX, trainY, ntree = nArb, do.trace =50) #,sampsize=sz)
@@ -362,7 +356,7 @@ dfCat$Freq <- NULL
 dfCat$err <- NULL
 names(dfCat)[2] <- paste0("Freq_Err", i)
                        
-sort(colSums(sp_ba[,MySpecies]))
+sort(colSums(sp_ba[,spp17]))
 
 save(rfTestPar, file = name4)
 

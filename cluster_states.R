@@ -9,6 +9,8 @@ library(distances)
 
 vegpot <- read.csv("data/0_Vegpot.csv")
 
+spp17 <- read.csv("data/QC_RIA_SppList17.csv")$mycode
+
 sp_ba <- readRDS("data/sp_mat_ba_oct2020.RDS")
 
 # pep_pe <- st_read("data/PEP_GDB/PEP.gdb", layer = "STATION_PE")
@@ -38,25 +40,22 @@ pep_vegpot <- pep_pe %>%
 
 
 # garder seulement les PEP qui sont dans pep_pe
-MySpecies <- colnames(sp_ba[,-c(1:3,59)])
+# garder les 17 espèces de landis
 
 sp_ba <- sp_ba %>%
   filter(ID_PE %in% pep_pe$ID_PE) %>%
-  left_join(pep_vegpot, by = c("ID_PE", "ID_PE_MES"))
-
-
-sort(colSums(sp_ba[,MySpecies]))
-
+  left_join(pep_vegpot, by = c("ID_PE", "ID_PE_MES")) %>%
+  select(ID_PE:year_measured, spp17)
 
 
 # Distance ####
 
 # Hellinger distance matrice
-dist_hell <- dist(decostand(sp_ba[,MySpecies], "hel"))
+dist_hell <- dist(decostand(sp_ba[,spp17], "hel"))
 
 # log-chord distances
 
-dist_chord <- (decostand(log1p(sp_ba[,MySpecies]), "normalize"))
+dist_chord <- (decostand(log1p(sp_ba[,spp17]), "normalize"))
 dist_chord <- dist(dist_chord)
 
 
@@ -68,9 +67,7 @@ dist_chord <- dist(dist_chord)
 
 grWard_chord <- hclust(dist_chord, method = "ward.D2")
 
-
-ss <- names(which(colSums(sp_ba[,MySpecies])>2000))
-seqy = seq(0, 1, len = length(ss))
+seqy = seq(0, 1, len = length(spp17))
 
 # Dendrogramme ####
 xgr = grWard_chord
@@ -80,15 +77,15 @@ gr_ord <- xgr$order
 png("res/dendro_ward_chord.png", width = 10, height = 6, units = "in", res = 300)
 layout(matrix(1:2), heights = c(.6,.4))
 par(mar = c(0,3,1,1))
-plot(xgr, hang = -1,xaxs = "i", labels = FALSE, main = "Ward clustering on log-Chord distance - 18 groups", 
+plot(xgr, hang = -1, xaxs = "i", labels = FALSE, main = "Ward clustering on log-Chord distance - 18 groups", 
      xlab="", ylab = "", sub="", cex.axis = .6,
      las = 1)
 rect.hclust(xgr, k = 18, border = 2:20) 
 
 par(mar = c(1,3,0,1))
-image(as.matrix(sp_ba[gr_ord,rev(ss)]), axes = F, 
+image(as.matrix(sp_ba[gr_ord, rev(spp17)]), axes = F, 
       col = hcl.colors(12, "Viridis"))
-text(-.02, rev(seqy), ss, xpd = NA, 
+text(-.02, rev(seqy), spp17, xpd = NA, 
      cex = .5, adj = 1, font = 3)
 dev.off()
 
@@ -121,8 +118,7 @@ write.csv(gr_vegpot, "vegpot_gr_ward_chord.csv")
 
 grWard_hell <- hclust(dist_hell, method = "ward.D2")
 
-ss <- names(which(colSums(sp_ba[,MySpecies])>2000))
-seqy = seq(0, 1, len = length(ss))
+seqy = seq(0, 1, len = length(spp17))
 
 # Dendrogramme ####
 xgr = grWard_hell
@@ -138,9 +134,9 @@ plot(xgr, hang = -1,xaxs = "i", labels = FALSE, main="Ward clustering on Helling
 rect.hclust(xgr, k = 16, border = 2:18) 
 
 par(mar = c(1,3,0,1))
-image(as.matrix(sp_ba[gr_ord,rev(ss)]), axes = F, 
+image(as.matrix(sp_ba[gr_ord,rev(spp17)]), axes = F, 
       col = hcl.colors(12, "Viridis"))
-text(-.02, rev(seqy), ss, xpd = NA, 
+text(-.02, rev(seqy), spp17, xpd = NA, 
      cex = .5, adj = 1, font = 3)
 dev.off()
 
@@ -151,7 +147,7 @@ png('res/ward_hell_sp_boxplot.png', width = 13, height = 8.5,
 par(mfrow = c(4,5), mar = c(1.5,3.4,1,.5))
 
 for(i in 1:18){
-  boxplot(sp_ba[gr==i, ss], 
+  boxplot(sp_ba[gr==i, spp17], 
           horizontal = T, cex.axis = .65, las = 1, xaxt = "n", 
           outwex = 1, pch = 20, cex = .1, outcol = "grey", col = "red3") 
   axis(1, cex.axis = .5, tick = F, line = -1)
