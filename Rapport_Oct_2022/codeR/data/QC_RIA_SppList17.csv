@@ -1,0 +1,18 @@
+Picus.Number,Picus.Name,Picus.Latin,PSP.Name,Presence.Name,MFFP,mycode
+1,Red Spruce,Picea rubens,Pice_Rub,picerube,EPR,PICRUB
+2,White Spruce,Picea glauca,Pice_Gla,piceglau,EPB,PICGLA
+3,Black Spruce,Picea mariana,Pice_Mar,picemari,EPN,PICMAR
+4,Balsam Fir,Abies balsamea,Abie_Bal,abiebals,SAB,ABIBAL
+5,Eastern Hemlock,Tsuga canadensis,Tsug_Can,tsugcana,PRU,TSUCAN
+6,Eastern White Cedar,Thuja occidentalis,Thuj_Occ,thujocci,THO,THUOCC
+7,Jack Pine,Pinus banksiana,Pinu_Ban,pinubank,PIG,PINBAN
+8,Red Pine,Pinus resinosa,Pinu_Res,pinuresi,PIR,PINRES
+9,White Pine,Pinus strobus,Pinu_Str,pinustrb,PIB,PINSTR
+10,Larch,Larix laricina,Lari_Lar,larilari,MEL,LARLAR
+11,Sugar Maple,Acer saccharum,Acer_Sah,acersacr,ERS,ACESAC
+12,Red Maple,Acer rubrum,Acer_Rub,acerrubr,ERR,ACERUB
+16,White Birch,Betula papyrifera,Betu_Pap,betupapy,BOP,BETPAP
+17,Yellow Birch,Betula alleghaniensis,Betu_All,betualle,BOJ,BETALL
+18,American Beech,Fagus grandifolia,Fagu_Gra,fagugran,HEG,FAGGRA
+19,Trembling Aspen,Populus tremuloides,Popu_Spp,popuspp,PET,POPTRE
+21,Red Oak,Quercus rubra,Quer_Rub,querrubr,CHR,QUERUB
